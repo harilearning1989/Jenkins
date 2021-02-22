@@ -1,0 +1,67 @@
+pipeline{
+     environment {
+     FOO = "foo"
+     javaHome = tool name: 'JAVA_HOME', type: 'jdk'
+	 javaCMD = "${javaHome}/bin/java"
+	 
+     mvnHome = tool name: 'MAVEN_HOME', type: 'maven'
+     mvnCmd = "${mvnHome}/bin/mvn"
+     
+     gradleHome = tool name: 'GRADLE_HOME', type: 'gradle'
+     grdlCmd = "${gradleHome}/bin/gradle"
+     }
+     agent any 
+     //tool: Use a tool from a predefined Tool Installation
+     //tool name: 'JAVA_HOME', type: 'jdk'
+     
+     //
+     //tool name: 'GIT_HOME', type: 'git'
+    stages {
+        stage('Build') { 
+            steps {
+                echo "Build" 
+            }
+        }
+        stage('Test') { 
+            steps {
+                echo "Test"
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                echo "Deploy"
+            }
+        }
+        
+        stage('Java') { 
+            steps {
+                echo "Java"
+                sh "${javaCMD} -version" 
+            }
+        }
+        stage('Gradle') { 
+            steps {
+                withEnv(["JAVA_HOME=${tool 'JAVA_HOME'}", "PATH=${tool 'JAVA_HOME'}/bin:${env.PATH}"]) {
+                sh 'java -version'
+                echo "Gradle"
+                sh "${grdlCmd} -v"
+                }
+            }
+        }
+        stage('Maven') { 
+            steps {
+                withEnv(["JAVA_HOME=${tool 'JAVA_HOME'}", "PATH=${tool 'JAVA_HOME'}/bin:${env.PATH}"]) {
+                sh 'java -version'
+                echo "Maven"
+                sh "${mvnCmd} -v"
+                }
+            }
+        }
+        stage('Git') { 
+            steps {
+                echo "Git"
+                sh "git --version"
+            }
+        }
+    }
+}
