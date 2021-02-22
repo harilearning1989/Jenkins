@@ -1,0 +1,9 @@
+Add the Softwares to Jenkins
+
+Click on Manage Jenkins
+then Global Tool Configuration
+then 
+JAVA_HOME     /tmp/Softwares/jdk-11.0.9
+GRADLE_HOME   /tmp/Softwares/gradle-6.7
+MAVEN_HOME    /tmp/Softwares/apache-maven-3.6.3
+GIT_HOME      /tmp/Softwares/git-2.9.4
